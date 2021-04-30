@@ -15,6 +15,9 @@ namespace Parque
             // variaveis
             string opcaoEscolhida = "-1";
 
+            // carregar ficheiros ao iniciar o programa
+            CarregarFicheiros();
+
             // sair com o numero 0
             while (!opcaoEscolhida.Equals("0"))
             {
@@ -329,47 +332,41 @@ namespace Parque
             TarifaDA.VerTarifas();
         }
 
-        ////Parque de Estacionamento
-        //public static void InserirParquesEstacionamento()
-        //{
-        //    // variaveis
-        //    int maximoLugares;
-        //    List<Entrada> entradas;
-        //    List<Saida> saidas; ;
-        //    List<Tarifa> tarifas;
-        //    ParqueEstacionamento parque;
-        
+        //Parque de Estacionamento
+        public static void InserirParquesEstacionamento()
+        {
+            // variaveis
+            int maximoLugares;
+            List<Entrada> entradas;
+            List<Saida> saidas; ;
+            List<Tarifa> tarifas;
+            ParqueEstacionamento parque;
 
-        //    // limpar consola
-        //    Console.Clear();
 
-        //    // pedir dados ao utilizador
-        //    Console.Write("Insira o numero maximo de lugares do parque de estacionamento: ");
-        //    maximoLugares = int.Parse( Console.ReadLine());
+            // limpar consola
+            Console.Clear();
 
-        //    //nao sei como fazer isto
-        //    entradas = int.Parse(Console.ReadLine());
-        //    saidas = int.Parse(Console.ReadKey());
-        //    tarifas = try.parse(Console.ReadKey());
+            // pedir dados ao utilizador
+            Console.Write("Insira o numero maximo de lugares do parque de estacionamento: ");
+            maximoLugares = int.Parse(Console.ReadLine());
 
-        //    // inserir parque de estacionamento
-        //    // estou com probelmas a inserir o parque por causa das listas ( esta me a pedir para passar a lista no parque )
-        //    parque = new ParqueEstacionamento(maximoLugares, List<Entrada>, List<Saida>, List<Tarifa>);
+            // inserir parque de estacionamento
+            parque = new ParqueEstacionamento(maximoLugares, new List<Entrada>(), new List<Saida>(), new List<Tarifa>());
 
-        //    // adicionar à lista de parque de estacionamento
-        //    if (ParqueEstacionamentoDA.AdicionarParqueEstacionamento(parque))
-        //        Console.WriteLine("Parque de estacionamento adicionado com sucesso!!");
-        //    else
-        //        Console.WriteLine("Erro ao adicionar Parque de Estacionamento!");
-        //}
+            // adicionar à lista de parque de estacionamento
+            if (ParqueEstacionamentoDA.AdicionarParqueEstacionamento(parque))
+                Console.WriteLine("Parque de estacionamento adicionado com sucesso!!");
+            else
+                Console.WriteLine("Erro ao adicionar Parque de Estacionamento!");
+        }
 
-        //public static void VerParqueEstacionamento()
-        //{
-        //    // limpar consola
-        //    Console.Clear();
+        public static void VerParqueEstacionamento()
+        {
+            // limpar consola
+            Console.Clear();
 
-        //    // mostrar parques inseridos
-        //    ParqueEstacionamentoDA.VerParqueEstacionamento();
-        //}
+            // mostrar parques inseridos
+            ParqueEstacionamentoDA.VerParqueEstacionamento();
+        }
     }
 }
