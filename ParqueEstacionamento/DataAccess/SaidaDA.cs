@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+// Responsavel por gerir todas as saidas.
 namespace DataAccess
 {
     public class SaidaDA
@@ -32,7 +33,7 @@ namespace DataAccess
         public static bool AdicionarSaida(Saida saida)
         {
             // exemplos de como limitar para 10 saidas
-            if (saidas.Count >= 10)
+            if (saidas.Count >= Constantes.NUMERO_SAIDAS)
                 return false;
 
             // variaveis
@@ -68,20 +69,14 @@ namespace DataAccess
             // se nao foi encontrado na lista retornar que o objeto é novo
             return false;
         }
-        public static void VerSaidas()
+        public static List<Saida> VerSaidas()
         {
             // se nao existirem saidas dizer que nao existem
-            if (saidas.Count == 0)
-            {
-                Console.WriteLine("Não existem saidas de momento!");
-                return;
-            }
+            if (saidas is null || saidas.Count == 0)
+                return new List<Saida>();
 
-            // percorrer lista e mostrar as saidas
-            foreach (Saida saida in saidas)
-            {
-                Console.WriteLine(saida.ToString());
-            }
+            // retornar lista
+            return saidas;
         }
 
 

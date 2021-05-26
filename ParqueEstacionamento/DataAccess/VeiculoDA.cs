@@ -7,6 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
+//Responsavel por gerir todos os veiculos.
 namespace DataAccess
 {
     public class VeiculoDA
@@ -31,8 +32,8 @@ namespace DataAccess
         /// <returns></returns>
         public static bool AdicionarVeiculo(Veiculo veiculo)
         {
-            // exemplos de como limitar para 10 veiculos
-            if (veiculos.Count >= 10)
+            // exemplos de como limitar para 10 veiculos que esta nas constantes
+            if (veiculos.Count >= Constantes.NUMERO_VEICULOS)
                 return false;
 
             // variaveis
@@ -70,20 +71,14 @@ namespace DataAccess
         }
 
 
-        public static void VerVeiculos()
+        public static List<Veiculo> VerVeiculos()
         {
             // se nao existirem veiculos dizer que nao existem
-            if (veiculos.Count == 0)
-            {
-                Console.WriteLine("Não existem veiculos de momento!");
-                return ;
-            }
+            if (veiculos is null || veiculos.Count == 0)
+                return new List<Veiculo>();
 
-            // percorrer lista e mostrar os veiculos
-            foreach (Veiculo veiculo in veiculos)
-            {
-                Console.WriteLine(veiculo.ToString());
-            }
+            // retornar veiculos
+            return veiculos;
         }
 
 

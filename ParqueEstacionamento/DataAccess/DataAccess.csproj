@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constantes.cs" />
     <Compile Include="EntradaDA.cs" />
     <Compile Include="ParqueEstacionamentoDA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

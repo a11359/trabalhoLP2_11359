@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+// responsavel por gerir toda lista de entradas de veiculos.
 namespace DataAccess
 {
     public class EntradaDA
@@ -31,7 +32,7 @@ namespace DataAccess
         public static bool AdicionarEntrada(Entrada entrada)
         {
             // exemplos de como limitar para 10 entradas
-            if (entradas.Count >= 10)
+            if (entradas.Count >= Constantes.NUMERO_ENTRADAS)
                 return false;
 
             // variaveis
@@ -66,20 +67,14 @@ namespace DataAccess
             // se nao foi encontrado na lista retornar que o objeto é novo
             return false;
         }
-        public static void VerEntradas()
+        public static List<Entrada> VerEntradas()
         {
             // se nao existirem entradas dizer que nao existem
-            if (entradas.Count == 0)
-            {
-                Console.WriteLine("Não existem entradas de momento!");
-                return;
-            }
+            if (entradas is null || entradas.Count == 0)
+                return new List<Entrada>();
 
-            // percorrer lista e mostrar as entradas
-            foreach (Entrada entrada in entradas)
-            {
-                Console.WriteLine(entrada.ToString());
-            }
+            // retornar todas as entradas
+            return entradas;
         }
 
         /// <summary>
@@ -91,7 +86,7 @@ namespace DataAccess
             try
             {
                 // verificar se o ficheiro já existe para o apagar
-                    if (File.Exists(fileName))
+                if (File.Exists(fileName))
                     // apagar o ficheiro
                     File.Delete(fileName);
 

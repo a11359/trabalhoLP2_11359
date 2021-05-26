@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+// Responsavel por todas as tarifas.
 namespace DataAccess
 {
     public class TarifaDA
@@ -31,10 +32,6 @@ namespace DataAccess
         /// <returns></returns>
         public static bool AdicionarTarifa(Tarifa tarifa)
         {
-            // exemplos de como limitar para 3 tarifas
-            if (tarifas.Count >= 3)
-                return false;
-
             // variaveis
             bool existe = ExisteTarifa(tarifa);
 

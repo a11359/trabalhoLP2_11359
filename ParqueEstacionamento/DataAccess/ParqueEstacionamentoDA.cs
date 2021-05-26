@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+// Responsavel por gerir todos os parques de estacionamento
 namespace DataAccess
 {
     public class ParqueEstacionamentoDA
@@ -32,7 +33,7 @@ namespace DataAccess
         public static bool AdicionarParqueEstacionamento(ParqueEstacionamento parqueEstacionamento)
         {
             // limitar a 2 parques de estacionamento
-            if (parqueEstacionamentos.Count >= 2)
+            if (parqueEstacionamentos.Count >= Constantes.NUMERO_PARQUES_ESTACIOMENTO)
                 return false;
 
             // variaveis
@@ -82,6 +83,13 @@ namespace DataAccess
             {
                 Console.WriteLine(parqueEstacionamento.ToString());
             }
+        }
+
+
+        public static AdicionarTarifa(List<Tarifa> tarifas)
+        {
+            if (tarifas is null)
+                throw new Exception()
         }
 
 

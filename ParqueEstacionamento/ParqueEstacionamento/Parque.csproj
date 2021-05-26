@@ -55,9 +55,9 @@
       <Project>{b87d3a9c-fe21-46b2-b2ae-1cb57d75e0c3}</Project>
       <Name>BusinessObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
-      <Project>{148a8548-a9bc-4adb-b2d9-ca1544d7d743}</Project>
-      <Name>DataAccess</Name>
+    <ProjectReference Include="..\BusinessRules\BusinessRules.csproj">
+      <Project>{d8755d2d-8a01-451d-98df-32f3ac34aaf9}</Project>
+      <Name>BusinessRules</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
