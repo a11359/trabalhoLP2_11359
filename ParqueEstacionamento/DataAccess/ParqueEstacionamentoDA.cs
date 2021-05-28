@@ -32,7 +32,7 @@ namespace DataAccess
         /// <returns></returns>
         public static bool AdicionarParqueEstacionamento(ParqueEstacionamento parqueEstacionamento)
         {
-            // limitar a 2 parques de estacionamento
+            // limitar a 1 parque de estacionamento
             if (parqueEstacionamentos.Count >= Constantes.NUMERO_PARQUES_ESTACIOMENTO)
                 return false;
 
@@ -62,34 +62,58 @@ namespace DataAccess
             foreach (ParqueEstacionamento parqueEstacionamento in parqueEstacionamentos)
             {
                 // se exister retornar que o objeto ja existe
-                if (parqueEstacionamentos.Equals(parqueEstacionamentoParaVerificar))
+                if (parqueEstacionamento.Equals(parqueEstacionamentoParaVerificar))
                     return true;
             }
 
             // se nao foi encontrado na lista retornar que o objeto é novo
             return false;
         }
-        public static void VerParqueEstacionamento()
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static List<ParqueEstacionamento> VerParqueEstacionamento()
         {
             // se nao existirem entradas dizer que nao existem
             if (parqueEstacionamentos.Count == 0)
-            {
-                Console.WriteLine("Não existem parques de estacionamento de momento!");
-                return;
-            }
+                return new List<ParqueEstacionamento>();
 
             // percorrer lista e mostrar as entradas
-            foreach (ParqueEstacionamento parqueEstacionamento in parqueEstacionamentos)
-            {
-                Console.WriteLine(parqueEstacionamento.ToString());
-            }
+            return parqueEstacionamentos;
         }
 
 
-        public static AdicionarTarifa(List<Tarifa> tarifas)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tarifas"></param>
+        /// <returns></returns>
+        public static bool AdicionarTarifa(List<Tarifa> tarifas)
         {
             if (tarifas is null)
-                throw new Exception()
+                throw new Exception(Messages.OBJECT_NULL);
+
+            parqueEstacionamentos.First().Tarifas = tarifas;
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static List<Tarifa> VerTarifas()
+        {
+            // se nao existirem entradas dizer que nao existem
+            if (parqueEstacionamentos.Count == 0)
+                return new List<Tarifa>();
+
+            // percorrer lista e mostrar as entradas
+            return parqueEstacionamentos.First().Tarifas;
         }
 
 

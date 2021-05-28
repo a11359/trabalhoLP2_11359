@@ -46,7 +46,6 @@
     <Compile Include="ParqueEstacionamentoBR.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaidaBR.cs" />
-    <Compile Include="TarifaBR.cs" />
     <Compile Include="VeiculoBR.cs" />
   </ItemGroup>
   <ItemGroup>

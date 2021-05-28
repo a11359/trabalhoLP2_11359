@@ -60,7 +60,7 @@ namespace DataAccess
             foreach (Entrada entrada in entradas)
             {
                 // se exister retornar que o objeto ja existe
-                if (entradas.Equals(entradaParaVerificar))
+                if (entrada.Equals(entradaParaVerificar))
                     return true;
             }
 

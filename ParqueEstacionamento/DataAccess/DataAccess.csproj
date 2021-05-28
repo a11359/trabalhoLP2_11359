@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Constantes.cs" />
     <Compile Include="EntradaDA.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="ParqueEstacionamentoDA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaidaDA.cs" />

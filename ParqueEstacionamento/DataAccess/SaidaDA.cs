@@ -62,7 +62,7 @@ namespace DataAccess
             foreach (Saida saida in saidas)
             {
                 // se exister retornar que o objeto ja existe
-                if (saidas.Equals(saidaParaVerificar))
+                if (saida.Equals(saidaParaVerificar))
                     return true;
             }
 

@@ -16,11 +16,12 @@ namespace Parque
             string opcaoEscolhida = "-1";
 
             // carregar ficheiros do programa
-            CarregarFicheiros();
+            CarregarFicheiros(true);
 
             // sair com o numero 0
             while (!opcaoEscolhida.Equals("0"))
             {
+                // mostrar para continuar (primeira vez nao aparece)
                 if (!opcaoEscolhida.Equals("-1"))
                 {
                     Console.WriteLine("=== Clique numa tecla para continuar ===");
@@ -40,6 +41,7 @@ namespace Parque
                         case "A":
                         case "a":
                             // inserir novo parque
+                            InserirParqueEstacionamento();
 
 
                             break;
@@ -47,6 +49,7 @@ namespace Parque
                         case "B":
                         case "b":
                             // ver parque
+                            VerParqueEstacionamentos();
 
                             break;
 
@@ -100,19 +103,19 @@ namespace Parque
                         case "J":
                         case "j":
                             //Inserir tarifas
-                            InserirSaidas();
+                            VerSaidas();
 
                             break;
                         case "K":
                         case "k":
                             // guardar todos os ficheiros do sistema
-                            GravarFicheiros();
+                            GravarFicheiros(true);
 
                             break;
                         case "L":
                         case "l":
                             // carregar todos os ficheiros do sistema
-                            CarregarFicheiros();
+                            CarregarFicheiros(true);
 
                             break;
                         case "0":
@@ -125,9 +128,11 @@ namespace Parque
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Erro1! Mensagem: {0}", ex.Message);
-                    Console.ReadKey();
+                    Console.WriteLine("\n\nErro!! Mensagem: {0}\n", ex.Message);
                 }
+
+                // guardar todos os ficheiros ao inserir alguma coisa no menu
+                GravarFicheiros(false);
             }
 
             // pausar programa
@@ -156,17 +161,62 @@ namespace Parque
         }
 
         //Metodos
-        private static void CarregarFicheiros()
+        private static void CarregarFicheiros(bool apareceMensagem)
         {
             FicheiroBR.CarregarFicheiros();
-            Console.WriteLine("Ficheiros carregados com sucesso!");
+
+            if (apareceMensagem)
+                Console.WriteLine("Ficheiros carregados com sucesso!");
         }
 
         //gravar
-        private static void GravarFicheiros()
+        private static void GravarFicheiros(bool apareceMensagem)
         {
             FicheiroBR.GravarFicheiros();
-            Console.WriteLine("Ficheiros gravados com sucesso!");
+
+            if (apareceMensagem)
+                Console.WriteLine("Ficheiros gravados com sucesso!");
+        }
+
+        //Parque
+        public static void InserirParqueEstacionamento()
+        {
+            // variaveis
+            int lugares;
+            ParqueEstacionamento parqueEstacionamento;
+
+            // limpar consola
+            Console.Clear();
+
+            // pedir dados ao utilizador
+            Console.Write("Insira o maximo de lugares: ");
+            lugares = int.Parse(Console.ReadLine());
+
+            // inserir parques
+            parqueEstacionamento = new ParqueEstacionamento(lugares, new List<Tarifa>());
+
+            // adicionar à lista de parques
+            if (ParqueEstacionamentoBR.AdicionarParqueEstacionmento(parqueEstacionamento))
+                Console.WriteLine("Parque adicionado com sucesso!!");
+            else
+                Console.WriteLine("Erro ao adicionar parque!");
+        }
+
+        //Ver veiculos
+        public static void VerParqueEstacionamentos()
+        {
+            List<ParqueEstacionamento> parqueEstacionamentos;
+
+            // limpar consola
+            Console.Clear();
+
+            // mostrar parques inseridos
+            parqueEstacionamentos = ParqueEstacionamentoBR.VerParqueEstacionamento();
+
+            foreach (ParqueEstacionamento parqueEstacionamento in parqueEstacionamentos)
+            {
+                Console.WriteLine(parqueEstacionamento.ToString());
+            }
         }
 
         //Veiculo
@@ -238,6 +288,7 @@ namespace Parque
             else
                 Console.WriteLine("Erro ao adicionar Entrada!");
         }
+
         public static void VerEntradas()
         {
             List<Entrada> entradas;
@@ -248,6 +299,7 @@ namespace Parque
             // mostrar entradas inseridas
             entradas = EntradaBR.VerEntradas();
 
+            // mostrar entradas
             foreach (Entrada entrada in entradas)
             {
                 Console.WriteLine(entrada.ToString());
@@ -261,6 +313,7 @@ namespace Parque
             string matricula;
             DateTime date;
             Saida saida;
+            double preco;
 
             // limpar consola
             Console.Clear();
@@ -273,15 +326,20 @@ namespace Parque
             // inserir saida
             saida = new Saida (matricula, date);
 
+            // quantidade a pagar
+            preco = ParqueEstacionamentoBR.QuantidadePagar(saida);
+
             // adicionar à lista de saidas
             if (SaidaBR.AdicionarSaida(saida))
-                Console.WriteLine("Saida adicionada com sucesso!!");
+                Console.WriteLine("Saida adicionada com sucesso!!\nPreco a pagar: {0}", preco);
             else
                 Console.WriteLine("Erro ao adicionar Saida!");
         }
+
         public static void VerSaidas()
         {
             List<Saida> saidas;
+
             // limpar consola
             Console.Clear();
 
@@ -290,7 +348,8 @@ namespace Parque
 
             foreach (Saida saida in saidas)
             {
-                Console.WriteLine(saida.ToString());
+                Console.Write(saida.ToString());
+                Console.Write(" - Preco que pagou: {0}\n", ParqueEstacionamentoBR.QuantidadePagar(saida));
             }
         }
 
@@ -301,112 +360,56 @@ namespace Parque
             int de, ate;
             double preco;
             Tarifa tarifa;
+            List<Tarifa> tarifas = new List<Tarifa>();
+            int escolha = -1;
 
             // limpar consola
             Console.Clear();
 
-            // pedir dados ao utilizador
-            Console.Write("Insira a hora que entrou: ");
-            de = int.Parse(Console.ReadLine());
+            while (escolha != 0)
+            {
+                Console.Write("Insira o DE: ");
+                de = int.Parse(Console.ReadLine());
 
-            Console.Write("Insira a hora que saiu: ");
-            ate = int.Parse(Console.ReadLine());
+                Console.WriteLine("Insira o ATE: ");
+                ate = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("O preco a pagar é: ");
-            preco = (de + ate * (3));
-            Console.WriteLine("{0}", preco.ToString());
+                Console.WriteLine("Insira o preco: ");
+                preco = double.Parse(Console.ReadLine());
 
-            // inserir tarifa
-            tarifa = new Tarifa(de, ate, preco);
+                // criar tarifa
+                tarifa = new Tarifa(de, ate, preco);
+
+                // adicionar a lista de tarifas
+                tarifas.Add(tarifa);
+
+                // mais tarifas?
+                Console.WriteLine("Pretende adicionar mais tarifas? (0 -> NAO | 1 -> SIM)");
+                escolha = int.Parse(Console.ReadLine());
+            }
 
             // adicionar à lista de tarifas
-            if (TarifaBR.AdicionarTarifa(tarifa))
-                Console.WriteLine("Tarifa adicionada com sucesso!!");
+            if (ParqueEstacionamentoBR.AdicionarTarifa(tarifas))
+                Console.WriteLine("Tarifas adicionadas com sucesso!!");
             else
-                Console.WriteLine("Erro ao adicionar Tarifa!");
+                Console.WriteLine("Erro ao adicionar Tarifas!");
         }
+
         public static void VerTarifas()
         {
+            // variaveis
+            List<Tarifa> tarifas;
+
             // limpar consola
             Console.Clear();
 
             // mostrar tarifas inseridas
-            TarifaDA.VerTarifas();
+            tarifas = ParqueEstacionamentoBR.VerTarifas();
+
+            foreach (Tarifa tarifa in tarifas)
+            {
+                Console.WriteLine(tarifa.ToString());
+            }
         }
-
-        public static void Teste()
-        {
-            // exemplos para uma lista dentro do parque
-            List<Entrada> entradas = new List<Entrada>();
-            List<Saida> saidas = new List<Saida>();
-            DateTime data = DateTime.Now;
-            ParqueEstacionamento parque;
-
-            parque = new ParqueEstacionamento();
-
-            parque.MaximoLugares = 10;
-
-            parque.Entradas.Add(new Entrada("AA-14-BB", data));
-            parque.Entradas.Add(new Entrada("AA-14-BB", data.AddSeconds(1)));
-            parque.Entradas.Add(new Entrada("AA-14-BB", data.AddSeconds(2)));
-            parque.Entradas.Add(new Entrada("AA-14-BB", data.AddSeconds(3)));
-            parque.Entradas.Add(new Entrada("AA-14-BB", data.AddSeconds(4)));
-
-            // recolha dos dados do utilizador
-            Console.WriteLine("Insira a matricula:");
-
-            // ver se a matricula ja nao está no parque
-            Entrada entrada = new Entrada("AA-14-BB", data);
-
-            // business rules
-
-            // adicionar ao parque
-            parque.Entradas.Add(entrada);
-
-            //parque.Saidas.Add(new );
-        }
-
-        ////Parque de Estacionamento
-        //public static void InserirParquesEstacionamento()
-        //{
-        //    // variaveis
-        //    int maximoLugares;
-        //    List<Entrada> entradas;
-        //    List<Saida> saidas; ;
-        //    List<Tarifa> tarifas;
-        //    ParqueEstacionamento parque;
-        
-
-        //    // limpar consola
-        //    Console.Clear();
-
-        //    // pedir dados ao utilizador
-        //    Console.Write("Insira o numero maximo de lugares do parque de estacionamento: ");
-        //    maximoLugares = int.Parse( Console.ReadLine());
-
-        //    //nao sei como fazer isto
-        //    entradas = int.Parse(Console.ReadLine());
-        //    saidas = int.Parse(Console.ReadKey());
-        //    tarifas = try.parse(Console.ReadKey());
-
-        //    // inserir parque de estacionamento
-        //    // estou com probelmas a inserir o parque por causa das listas ( esta me a pedir para passar a lista no parque )
-        //    parque = new ParqueEstacionamento(maximoLugares, List<Entrada>, List<Saida>, List<Tarifa>);
-
-        //    // adicionar à lista de parque de estacionamento
-        //    if (ParqueEstacionamentoDA.AdicionarParqueEstacionamento(parque))
-        //        Console.WriteLine("Parque de estacionamento adicionado com sucesso!!");
-        //    else
-        //        Console.WriteLine("Erro ao adicionar Parque de Estacionamento!");
-        //}
-
-        //public static void VerParqueEstacionamento()
-        //{
-        //    // limpar consola
-        //    Console.Clear();
-
-        //    // mostrar parques inseridos
-        //    ParqueEstacionamentoDA.VerParqueEstacionamento();
-        //}
     }
 }

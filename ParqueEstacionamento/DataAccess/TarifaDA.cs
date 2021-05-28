@@ -58,7 +58,7 @@ namespace DataAccess
             foreach (Tarifa tarifa in tarifas)
             {
                 // se exister retornar que o objeto ja existe
-                if (tarifas.Equals(tarifaParaVerificar))
+                if (tarifa.Equals(tarifaParaVerificar))
                     return true;
             }
 
